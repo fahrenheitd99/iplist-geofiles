@@ -15,8 +15,9 @@ import (
 )
 
 type CategoryRule struct {
-	Tag      string   
-	BaseURLs []string
+	Tag           string   
+	BaseURLs      []string
+	CustomDomains []string // Дополнительные кастомные домены напрямую
 }
 
 func opencckGroup(domain, group string) string {
@@ -133,6 +134,12 @@ var categories = []CategoryRule{
 			opencckGroup("iplist.opencck.org", "tools"),
 			"https://beta.iplist.opencck.org/?format=text&site=openwrt.org&site=speedtest.net&site=aidungeon.com&site=anydesk.com&site=cohere.com&site=figma.com&site=mega.io&site=themeforest.net&site=yootheme.com",
 		},
+		CustomDomains: []string{
+			"startpage.com",
+			"startpage.eu",
+			"ixquick.com",
+			"ixquick.eu",
+		},
 	},
 	{
 		Tag: "TORRENT",
@@ -194,6 +201,8 @@ func main() {
 		fmt.Printf("\n[+] Processing Tag: %s\n", tag)
 
 		uniqueDomains := make(map[string]bool)
+
+		// 1. Подгрузка с веб-источников
 		for _, baseURL := range cat.BaseURLs {
 			domainURL := transformURL(baseURL, "domains")
 			domains, err := fetchAndCleanDomains(client, domainURL)
@@ -205,6 +214,13 @@ func main() {
 				uniqueDomains[d] = true
 			}
 			time.Sleep(300 * time.Millisecond)
+		}
+
+		// 2. Подмешивание локальных CustomDomains
+		for _, customDomain := range cat.CustomDomains {
+			if isValidXrayDomain(customDomain) {
+				uniqueDomains[customDomain] = true
+			}
 		}
 
 		if len(uniqueDomains) > 0 {
