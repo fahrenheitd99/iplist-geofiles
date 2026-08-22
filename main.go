@@ -84,6 +84,12 @@ var categories = []CategoryRule{
 		},
 	},
 	{
+		Tag: "JETBRAINS",
+		BaseURLs: []string{
+			opencckGroup("iplist.opencck.org", "jetbrains"),
+		},
+	},
+	{
 		Tag: "MESSENGERS",
 		BaseURLs: []string{
 			opencckGroup("iplist.opencck.org", "messengers"),
