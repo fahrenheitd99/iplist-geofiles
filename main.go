@@ -17,7 +17,7 @@ import (
 type CategoryRule struct {
 	Tag           string   
 	BaseURLs      []string
-	CustomDomains []string // Дополнительные кастомные домены напрямую
+	CustomDomains []string
 }
 
 func opencckGroup(domain, group string) string {
@@ -137,8 +137,27 @@ var categories = []CategoryRule{
 		CustomDomains: []string{
 			"startpage.com",
 			"startpage.eu",
+			"startpage.net",
+			"startpage.org",
+			"startpage.info",
+			"startpage.nl",
+			"startpage.de",
+			"startpage.fr",
+			"startpage.es",
+			"startpage.it",
+			"startpage.ca",
+			"startpage.co.uk",
 			"ixquick.com",
 			"ixquick.eu",
+			"ixquick.net",
+			"ixquick.org",
+			"ixquick.info",
+			"ixquick.nl",
+			"ixquick.de",
+			"ixquick.fr",
+			"ixquick.co.uk",
+			"startmail.com",
+			"startmail.eu",
 		},
 	},
 	{
