@@ -33,6 +33,8 @@ Automated build system for `geosite.dat` and `geoip.dat` for routing. Auto-updat
 
 <br>
 
+**Domain Strategy: IPIfNonMatch
+
 **Rules source:** https://raw.githubusercontent.com/fahrenheitd99/iplist-geofiles/main/rules/v2rayn-rules.json
 
 **Raw JSON**:
