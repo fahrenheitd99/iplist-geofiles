@@ -1,9 +1,9 @@
-name: Build and Release GeoData
+name: Build and Commit GeoData
 
 on:
   schedule:
     - cron: '0 3 */2 * *'
-  workflow_dispatch:
+  workflow_dispatch: 
 
 permissions:
   contents: write
@@ -25,10 +25,10 @@ jobs:
           go mod tidy
           go run main.go
 
-      - name: Create or Update Tag & Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: latest
-          files: |
-            geosite.dat
-            geoip.dat
+      - name: Commit and push geodata files to main branch
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add geosite.dat geoip.dat
+          git commit -m "auto: update geodata files [skip ci]" || echo "No changes to commit"
+          git push
