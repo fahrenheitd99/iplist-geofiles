@@ -44,6 +44,6 @@ Automated build system for `geosite.dat` and `geoip.dat` for routing. Auto-updat
 ```
 </details>
 
-**Data Sources:** iplist.opencck.org • beta.iplist.opencck.org • russia.iplist.opencck.org
+**Data Sources:** https://iplist.opencck.org • https://beta.iplist.opencck.org • https://russia.iplist.opencck.org
 
 
