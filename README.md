@@ -22,9 +22,10 @@ Automated build system for `geosite.dat` and `geoip.dat` for routing. Auto-updat
 | `ART` | `MESSENGERS` | `TOOLS` |
 | `CASINO` | `MUSIC` | `TORRENT` |
 | `DISCORD` | `NEWS` | `VIDEO` |
-| `EDUCATION` | `PORN` | `YOUTUBE` |
-| `FINANCE` | `RUSSIA` | `VK` |
-| `GAMES` | `SHOP` | `YANDEX` |
+| `EDUCATION` | `PORN` | `VK` |
+| `FINANCE` | `PRIVATE` | `YANDEX` |
+| `GAMES` | `RUSSIA` | `YOUTUBE` |
+| `SHOP` | | |
 
 ---
 
@@ -39,7 +40,7 @@ Automated build system for `geosite.dat` and `geoip.dat` for routing. Auto-updat
 
 **Raw JSON**:
 ```json
-[{"enabled":true,"locked":false,"outboundTag":"direct","protocol":["bittorrent"],"remarks":"torrents"},{"enabled":true,"locked":false,"network":"udp","outboundTag":"proxy","port":"50000-65535","remarks":"voice2proxy"},{"domain":["geosite:ai","geosite:anime","geosite:art","geosite:casino","geosite:discord","geosite:education","geosite:finance","geosite:games","geosite:hosting","geosite:jetbrains","geosite:messengers","geosite:music","geosite:news","geosite:porn","geosite:shop","geosite:socials","geosite:tools","geosite:torrent","geosite:video","geosite:youtube"],"enabled":true,"locked":false,"outboundTag":"proxy","remarks":"domains2proxy"},{"enabled":true,"ip":["geoip:ai","geoip:anime","geoip:art","geoip:casino","geoip:discord","geoip:education","geoip:finance","geoip:games","geoip:hosting","geoip:jetbrains","geoip:messengers","geoip:music","geoip:news","geoip:porn","geoip:shop","geoip:socials","geoip:tools","geoip:torrent","geoip:video","geoip:youtube"],"locked":false,"outboundTag":"proxy","remarks":"ip2proxy"},{"enabled":true,"locked":false,"outboundTag":"direct","port":"0-65535","remarks":"other"}]
+[{"enabled":true,"locked":false,"outboundTag":"direct","protocol":["bittorrent"],"remarks":"Torrents"},{"enabled":true,"ip":["geoip:private"],"locked":false,"outboundTag":"direct","remarks":"private IPs"},{"domain":["geosite:private"],"enabled":true,"locked":false,"outboundTag":"direct","remarks":"private Domains"},{"enabled":true,"locked":false,"network":"udp","outboundTag":"proxy","port":"50000-65535","remarks":"voice2proxy"},{"domain":["geosite:ai","geosite:anime","geosite:art","geosite:casino","geosite:discord","geosite:education","geosite:finance","geosite:games","geosite:hosting","geosite:jetbrains","geosite:messengers","geosite:music","geosite:news","geosite:porn","geosite:shop","geosite:socials","geosite:tools","geosite:torrent","geosite:video","geosite:youtube"],"enabled":true,"locked":false,"outboundTag":"proxy","remarks":"Domains2proxy"},{"enabled":true,"ip":["geoip:ai","geoip:anime","geoip:art","geoip:casino","geoip:discord","geoip:education","geoip:finance","geoip:games","geoip:hosting","geoip:jetbrains","geoip:messengers","geoip:music","geoip:news","geoip:porn","geoip:shop","geoip:socials","geoip:tools","geoip:torrent","geoip:video","geoip:youtube"],"locked":false,"outboundTag":"proxy","remarks":"IPs2proxy"},{"enabled":true,"locked":false,"outboundTag":"direct","port":"0-65535","remarks":"Other"}]
 ```
 </details>
 
