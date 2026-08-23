@@ -15,9 +15,10 @@ import (
 )
 
 type CategoryRule struct {
-	Tag           string   
+	Tag           string
 	BaseURLs      []string
 	CustomDomains []string
+	CustomCIDRs   []string
 }
 
 func opencckGroup(domain, group string) string {
@@ -25,6 +26,27 @@ func opencckGroup(domain, group string) string {
 }
 
 var categories = []CategoryRule{
+	{
+		Tag: "PRIVATE",
+		CustomCIDRs: []string{
+			"127.0.0.0/8",
+			"10.0.0.0/8",
+			"172.16.0.0/12",
+			"192.168.0.0/16",
+			"100.64.0.0/10",
+			"169.254.0.0/16",
+			"224.0.0.0/4",
+			"240.0.0.0/4",
+			"255.255.255.255/32",
+		},
+		CustomDomains: []string{
+			"home.arpa",
+			"router.asus.com",
+			"tplinkwifi.net",
+			"openwrt.lan",
+			"my.router",
+		},
+	},
 	{
 		Tag: "AI",
 		BaseURLs: []string{
@@ -180,7 +202,7 @@ var categories = []CategoryRule{
 		},
 	},
 	{
-		Tag: "TIKTOK", 
+		Tag: "TIKTOK",
 		BaseURLs: []string{
 			"https://iplist.opencck.org/?format=text&site=tiktok.com",
 		},
@@ -208,8 +230,6 @@ var categories = []CategoryRule{
 var domainPattern = regexp.MustCompile(`^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$`)
 
 func main() {
-	fmt.Println("=== Starting GeoData Builder (IPv4 Only) ===")
-
 	client := &http.Client{Timeout: 40 * time.Second}
 
 	var geoSiteEntries []*router.GeoSite
@@ -217,16 +237,12 @@ func main() {
 
 	for _, cat := range categories {
 		tag := strings.ToUpper(cat.Tag)
-		fmt.Printf("\n[+] Processing Tag: %s\n", tag)
-
 		uniqueDomains := make(map[string]bool)
 
-		// 1. Подгрузка с веб-источников
 		for _, baseURL := range cat.BaseURLs {
 			domainURL := transformURL(baseURL, "domains")
 			domains, err := fetchAndCleanDomains(client, domainURL)
 			if err != nil {
-				fmt.Printf("   [!] Skipped domain fetch (%s): %v\n", domainURL, err)
 				continue
 			}
 			for _, d := range domains {
@@ -235,7 +251,6 @@ func main() {
 			time.Sleep(300 * time.Millisecond)
 		}
 
-		// 2. Подмешивание локальных CustomDomains
 		for _, customDomain := range cat.CustomDomains {
 			if isValidXrayDomain(customDomain) {
 				uniqueDomains[customDomain] = true
@@ -248,21 +263,24 @@ func main() {
 				domainList = append(domainList, d)
 			}
 			geoSiteEntries = append(geoSiteEntries, buildGeoSiteEntry(tag, domainList))
-			fmt.Printf("   [✓] Geosite '%s': %d domains\n", tag, len(domainList))
 		}
 
 		uniqueCIDRs := make(map[string]bool)
+
 		for _, baseURL := range cat.BaseURLs {
 			cidr4URL := transformURL(baseURL, "cidr4")
 			cidrs4, err := fetchLines(client, cidr4URL)
 			if err != nil {
-				fmt.Printf("   [!] Skipped CIDR fetch (%s): %v\n", cidr4URL, err)
 				continue
 			}
 			for _, c := range cidrs4 {
 				uniqueCIDRs[c] = true
 			}
 			time.Sleep(300 * time.Millisecond)
+		}
+
+		for _, customCIDR := range cat.CustomCIDRs {
+			uniqueCIDRs[customCIDR] = true
 		}
 
 		if len(uniqueCIDRs) > 0 {
@@ -273,7 +291,6 @@ func main() {
 			ipEntry, err := buildGeoIPEntry(tag, cidrList)
 			if err == nil && len(ipEntry.Cidr) > 0 {
 				geoIPEntries = append(geoIPEntries, ipEntry)
-				fmt.Printf("   [✓] GeoIP '%s': %d IPv4 CIDR ranges\n", tag, len(ipEntry.Cidr))
 			}
 		}
 	}
@@ -281,18 +298,14 @@ func main() {
 	if len(geoSiteEntries) > 0 {
 		siteList := &router.GeoSiteList{Entry: geoSiteEntries}
 		if err := saveProto("geosite.dat", siteList); err != nil {
-			fmt.Printf("\nError saving geosite.dat: %v\n", err)
-		} else {
-			fmt.Println("\n[SUCCESS] geosite.dat successfully compiled!")
+			os.Exit(1)
 		}
 	}
 
 	if len(geoIPEntries) > 0 {
 		ipList := &router.GeoIPList{Entry: geoIPEntries}
 		if err := saveProto("geoip.dat", ipList); err != nil {
-			fmt.Printf("Error saving geoip.dat: %v\n", err)
-		} else {
-			fmt.Println("[SUCCESS] geoip.dat successfully compiled!")
+			os.Exit(1)
 		}
 	}
 }
@@ -419,7 +432,7 @@ func buildGeoIPEntry(tag string, lines []string) (*router.GeoIP, error) {
 	for _, line := range lines {
 		cidr, err := parseCIDR(line)
 		if err != nil {
-			continue 
+			continue
 		}
 		geo.Cidr = append(geo.Cidr, cidr)
 	}
