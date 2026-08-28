@@ -48,6 +48,12 @@ var categories = []CategoryRule{
 		},
 	},
 	{
+		Tag: "ROBLOX",
+		BaseURLs: []string{
+			"https://beta.iplist.opencck.org/?format=text&site=roblox.com",
+		},
+	},
+	{
 		Tag: "AI",
 		BaseURLs: []string{
 			opencckGroup("iplist.opencck.org", "ai"),
