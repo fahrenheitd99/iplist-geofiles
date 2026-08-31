@@ -48,6 +48,12 @@ var categories = []CategoryRule{
 		},
 	},
 	{
+		Tag: "STEAM",
+		BaseURLs: []string{
+			"https://beta.iplist.opencck.org/?format=text&site=steampowered.com",
+		},
+	},
+	{
 		Tag: "ROBLOX",
 		BaseURLs: []string{
 			"https://beta.iplist.opencck.org/?format=text&site=roblox.com",
