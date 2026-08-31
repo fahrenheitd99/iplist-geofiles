@@ -25,7 +25,7 @@ Automated build system for `geosite.dat` and `geoip.dat` for routing. Auto-updat
 | `EDUCATION` | `PORN` | `VK` |
 | `FINANCE` | `PRIVATE` | `YANDEX` |
 | `GAMES` | `RUSSIA` | `YOUTUBE` |
-| `SHOP` | | |
+| `SHOP` | `ROBLOX` | `STEAM` |
 
 ---
 
