@@ -210,8 +210,7 @@ var categories = []CategoryRule{
 	{
 		Tag: "GOOGLE",
 		BaseURLs: []string{
-			// Функция transformURL автоматически подставит data=cidr4 и data=domains к этому базовому URL
-			"https://beta.iplist.opencck.org/?format=text&wildcard=1&site=google.com&site=google%40aistudio&site=google%40android&site=google%40blogspot&site=google%40firebase&site=google%40flutter.dev&site=google%40gemini&site=google%40go.dev&site=google%40google-ads&site=google%40google-gemini&site=google%40google-play&site=google%40google-registry&site=google%40google-scholar&site=google%40google-trust-services&site=google%40googleapis.com&site=google%40googlefcm&site=google%40googleusercontent.com&site=google%40kaggle&site=google%40notebooklm&site=google%40opensourceinsights&site=google%40other",
+			opencckGroup("beta.iplist.opencck.org", "google"),
 		},
 	},
 	{
